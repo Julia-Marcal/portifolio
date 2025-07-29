@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ana Julia Marçal - Desenvolvedora Full Stack especializada em performance e resolução de desafios técnicos">
+    <meta name="keywords" content="desenvolvedora, full stack, PHP, Laravel, Golang, performance, portfolio">
+    <meta name="author" content="Ana Julia Marçal">
+    <meta property="og:title" content="Ana Julia Marçal - Desenvolvedora Full Stack">
+    <meta property="og:description" content="Portfolio de Ana Julia Marçal, desenvolvedora especializada em performance e resolução de desafios técnicos">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://julia-marcal.github.io/portifolio/">
     <title>Ana Julia Marçal - Desenvolvedora Full Stack</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,8 +18,10 @@
 <body class="bg-black text-white overflow-x-hidden">
     <!-- Video Background -->
     <div class="fixed inset-0 z-0">
-        <video autoplay muted loop class="w-full h-full object-cover opacity-30">
+        <video autoplay muted loop class="w-full h-full object-cover opacity-30" preload="metadata">
             <source src="blackhole.mp4" type="video/mp4">
+            <!-- Fallback background if video fails to load -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-purple-900/20 to-black"></div>
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-purple-900/20 to-black/80"></div>
     </div>
