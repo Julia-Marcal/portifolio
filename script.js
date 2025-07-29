@@ -307,3 +307,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Experience tab interaction
+const expTabs = document.querySelectorAll('.exp-tab');
+const expDetails = document.querySelectorAll('.exp-detail');
+
+function showExperience(idx) {
+  expDetails.forEach((detail, i) => {
+    if (i === idx) {
+      detail.classList.remove('hidden');
+    } else {
+      detail.classList.add('hidden');
+    }
+  });
+  expTabs.forEach((tab, i) => {
+    if (i === idx) {
+      tab.classList.add('border-purple-400', 'bg-black/20');
+    } else {
+      tab.classList.remove('border-purple-400', 'bg-black/20');
+    }
+  });
+}
+
+expTabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => showExperience(i));
+});
+
+// Show first experience by default
+showExperience(0);
+
