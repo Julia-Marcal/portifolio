@@ -120,10 +120,10 @@ body {
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.85);
     color: #6A00FF;
     padding: 16px 32px;
-    border: 2px solid #6A00FF;
+    border: 2px solid rgba(255, 255, 255, 0.85);
     border-radius: 10px;
     font-weight: 600;
     text-decoration: none;
@@ -133,10 +133,11 @@ body {
 }
 
 .btn-secondary:hover {
-    background: #6A00FF;
+    background: transparent;
     color: white;
+    border-color: white;
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(106, 0, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
 }
 
 /* Social Links */
@@ -182,7 +183,7 @@ body {
 /* Skill Tags */
 .skill-tag {
     background: rgba(106, 0, 255, 0.2);
-    color: #B300FF;
+    color: #d783fb;
     padding: 8px 16px;
     border-radius: 25px;
     font-size: 14px;
