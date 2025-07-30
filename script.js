@@ -1,14 +1,11 @@
-// DOM Elements
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 
-// Mobile Menu Toggle
 mobileMenuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
 });
 
-// Smooth Scrolling for Navigation Links
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -16,19 +13,17 @@ navLinks.forEach(link => {
         const targetSection = document.getElementById(targetId);
         
         if (targetSection) {
-            const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
+            const offsetTop = targetSection.offsetTop - 80;
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
             });
         }
         
-        // Close mobile menu if open
         mobileMenu.classList.add('hidden');
     });
 });
 
-// Active Navigation Link Highlighting
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
     const scrollPos = window.scrollY + 100;
@@ -48,13 +43,11 @@ function updateActiveNavLink() {
     });
 }
 
-// Scroll Event Listener
 window.addEventListener('scroll', () => {
     updateActiveNavLink();
     handleScrollAnimations();
 });
 
-// Scroll Animations
 function handleScrollAnimations() {
     const elements = document.querySelectorAll('.glass-card, .skill-category');
     
@@ -69,7 +62,6 @@ function handleScrollAnimations() {
     });
 }
 
-// Initialize scroll animations
 document.addEventListener('DOMContentLoaded', () => {
     const elements = document.querySelectorAll('.glass-card, .skill-category');
     elements.forEach(element => {
@@ -78,11 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     });
     
-    // Trigger initial check
     handleScrollAnimations();
 });
 
-// Particle System
 function createParticles() {
     const particlesContainer = document.createElement('div');
     particlesContainer.className = 'particles';
@@ -99,7 +89,6 @@ function createParticles() {
     }
 }
 
-// Mouse Movement Effect
 document.addEventListener('mousemove', (e) => {
     const particles = document.querySelectorAll('.particle');
     const mouseX = e.clientX / window.innerWidth;
@@ -114,7 +103,6 @@ document.addEventListener('mousemove', (e) => {
     });
 });
 
-// Typing Effect for Hero Title
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.innerHTML = '';
@@ -130,7 +118,6 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Initialize Typing Effect
 document.addEventListener('DOMContentLoaded', () => {
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
@@ -141,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Intersection Observer for Animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -153,7 +139,6 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
             
-            // Add staggered animation for skill tags
             if (entry.target.classList.contains('skill-category')) {
                 const skillTags = entry.target.querySelectorAll('.skill-tag');
                 skillTags.forEach((tag, index) => {
@@ -167,7 +152,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for animations
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll('.glass-card, .skill-category');
     animatedElements.forEach(el => {
@@ -177,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Initialize skill tags
     const skillTags = document.querySelectorAll('.skill-tag');
     skillTags.forEach(tag => {
         tag.style.opacity = '0';
@@ -186,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Navbar Background on Scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('nav');
     if (window.scrollY > 100) {
@@ -198,7 +180,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Button Ripple Effect
 function createRipple(event) {
     const button = event.currentTarget;
     const circle = document.createElement('span');
@@ -218,7 +199,6 @@ function createRipple(event) {
     button.appendChild(circle);
 }
 
-// Add ripple effect to buttons
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
     buttons.forEach(button => {
@@ -228,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// CSS for ripple effect
 const rippleStyle = document.createElement('style');
 rippleStyle.textContent = `
     .ripple {
@@ -249,12 +228,10 @@ rippleStyle.textContent = `
 `;
 document.head.appendChild(rippleStyle);
 
-// Initialize particles when page loads
 document.addEventListener('DOMContentLoaded', () => {
     createParticles();
 });
 
-// Smooth reveal animation for sections
 const revealElements = document.querySelectorAll('section');
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -274,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Video loading optimization
 document.addEventListener('DOMContentLoaded', () => {
     const video = document.querySelector('video');
     if (video) {
@@ -283,16 +259,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         video.addEventListener('error', () => {
-            // Fallback if video fails to load
             video.style.display = 'none';
             document.body.style.background = 'linear-gradient(135deg, #000000 0%, #1A0033 50%, #000000 100%)';
         });
     }
 });
 
-// Preload critical resources
 document.addEventListener('DOMContentLoaded', () => {
-    // Preload fonts
     const fontLinks = [
         'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap',
         'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
@@ -307,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Experience tab interaction
 const expTabs = document.querySelectorAll('.exp-tab');
 const expDetails = document.querySelectorAll('.exp-detail');
 
@@ -332,6 +304,5 @@ expTabs.forEach((tab, i) => {
   tab.addEventListener('click', () => showExperience(i));
 });
 
-// Show first experience by default
 showExperience(0);
 
