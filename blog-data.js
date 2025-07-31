@@ -49,6 +49,123 @@ var ServiceStatus = emManutencao</code></pre>
             
             <p class="text-sm text-gray-400 mt-8">Publicado em 17 de Fevereiro de 2024 por Ana Julia Marçal</p>
         `
-    }
+    },
+    {
+        title: "Estratégias de Migração de Banco de Dados",
+        date: "22 de Fevereiro de 2023",
+        year: 2023,
+        author: "Ana Julia Marçal",
+        excerpt: "Um guia prático sobre como escolher a melhor estratégia de migração de banco de dados — do Big Bang à Zero Downtime — com dicas para evitar perdas e garantir uma transição segura.",
+        image: "https://via.placeholder.com/400x200/6A00FF/FFFFFF?text=Clean+Code",
+        link: "article.html?id=db-migration",
+        content: `
+            <p>Neste artigo, vamos falar sobre estratégias de migração de banco de dados, por que ela deve acontecer, como deve acontecer e qual é a melhor opção para cada caso.</p>
+
+            <p>Vamos imaginar que você iniciou uma startup com alguns amigos há alguns meses. É uma ideia inovadora que explodiu em pouco tempo. No início do projeto, vocês desenharam o banco de dados de uma forma esperando poucos usuários e pouco tráfego, mas agora percebem que o design não é tão direto, e vocês gostariam de mudar o banco de dados, o design e alguns relacionamentos também.</p>
+
+            <p>O que fazer agora? Você deve redesenhar tudo nesse mesmo banco SQL? Ou migrar para outro? Minha resposta é: migre!</p>
+
+            <h2>Coisas para pensar antes de migrar</h2>
+
+            <p>Primeiro, você precisa pensar sobre a quantidade de dados sendo transferida. Se a quantidade não for tão alta, é possível escolher uma estratégia de migração que não seja tão segura. Claro, a quantidade de dados vai definir se você pode migrar com um simples arquivo JSON ou precisará de uma ferramenta exclusiva para essa ação.</p>
+
+            <p>Pense na importância dos dados do banco: eles são realmente tão importantes que seria impensável perdê-los?</p>
+
+            <p>Se você estiver migrando para um banco completamente diferente do anterior, precisa considerar como adaptar os dados à nuvem/SQL/NoSQL da sua escolha. Quanto maior o volume de dados, mais trabalho você terá para configurar e ajustar os dados ou o novo banco da forma correta.</p>
+
+            <p>Pense em quanto tempo essa migração e configuração vão levar. Você precisa da migração com urgência? Tem alguém para analisar os dados depois? Vai migrar uma parte menor dos dados primeiro para análise?</p>
+
+            <h2>Estratégias de Migração e qual escolher</h2>
+
+            <h3>Grande Migração (Big Bang)</h3>
+
+            <p>É um esforço único para migrar todo o banco de dados de uma vez. É um processo relativamente simples, mas com grande tempo de inatividade e maior risco de corromper ou perder dados. Normalmente é feito em horários em que o servidor não está ativo para os usuários.</p>
+
+            <p>Essa estratégia pode ser útil para empresas pequenas, com bancos de dados mais simples que não funcionam 24/7. Escolher horários fora de pico ajuda a reduzir os erros durante a migração.</p>
+
+            <h3>Migração em Etapas (Trickle)</h3>
+
+            <p>É uma forma mais lenta de migrar dados de um servidor para outro, mas mais metódica e ágil. Envolve submigrações com escopos, prazos e metas. Isso facilita para a equipe de migração analisar cada etapa e confirmar o sucesso ou perda de dados em cada submigração.</p>
+
+            <p>Claro que essa estratégia exige mais tempo e mais recursos, pois os dois bancos de dados precisam funcionar ao mesmo tempo. É indicada para projetos maiores ou empresas que tenham mais tempo para migrar e equipes disponíveis para validar os dados.</p>
+
+            <h3>Migração com Zero Downtime</h3>
+
+            <p>É uma abordagem que permite migrar o banco de dados sem pausar a disponibilidade da base original, migrando pequenos blocos de dados e utilizando ferramentas que mantêm os dois bancos sincronizados.</p>
+
+            <p>É uma ótima opção para empresas ou projetos que precisam de migrações mais rápidas, mesmo com muitos dados e relações complexas. É uma opção de baixo custo, sem necessidade de verificar se os dados foram corrompidos ou perdidos — mas requer um planejamento cuidadoso e testes para garantir que tudo funcione perfeitamente.</p>
+
+            <p>Com este artigo da OpenGenus, você deve ter agora uma visão completa sobre as diferentes estratégias de migração de banco de dados.</p>
+        `
+    },
+    {
+        title: "Tolerância a Partições após os anos 2000",
+        date: "15 de Março de 2023",
+        year: 2023,
+        author: "Ana Julia Marçal",
+        excerpt: "Uma análise sobre como a tolerância a partições evoluiu após os anos 2000 e o que isso significa na prática para sistemas distribuídos e o Teorema CAP.",
+        image: "https://via.placeholder.com/400x200/FF7A00/FFFFFF?text=Partition+Tolerance",
+        link: "article.html?id=partition-tolerance",
+        content: `
+          <p>Neste artigo, vamos focar na tolerância a partições ao projetar um sistema e como essa ideia mudou com a evolução da conexão de internet. A ideia de escolher 2 dos 3 itens do Teorema CAP ainda existe? Se sim, ainda é a mesma de antigamente? Existe uma forma de ter tolerância a partições sem nenhuma falha? Vamos conversar sobre isso.</p>
+      
+          <h2>O que é uma partição?</h2>
+          <p>Partição é um erro de comunicação de rede que ocorre em sistemas distribuídos. Exemplo: você está escrevendo um artigo em um site e sua internet cai — seu progresso é perdido porque nada foi salvo.</p>
+      
+          <h2>O que é tolerância a partições?</h2>
+          <p>Você já deve ter ouvido falar do Teorema CAP, mas vamos revisar a letra P. Partição, nesse contexto, é a capacidade do sistema de continuar funcionando mesmo quando há falhas de comunicação entre alguns nós.</p>
+      
+          <p>Imagine um jogo multiplayer com 14 servidores no mundo. Você entra em um servidor próximo, mas ele falha. Você sai, volta e entra em outro servidor. O sistema continua funcional — isso é tolerância a partições.</p>
+      
+          <p>Porém, e o progresso do jogo? Ele conta no ranking? Não. Houve uma falha. Quanto mais tolerante a partições um sistema for, menos consistente ele tende a ser, porém mais disponível ele estará.</p>
+      
+          <h2>3 de 3 no Teorema CAP</h2>
+          <p>Quando se fala em escolher 2 de 3 no CAP, geralmente se assume que P está sempre presente. Mas por quê?</p>
+      
+          <p>É possível ter consistência e disponibilidade sem tolerância a partições, usando um servidor monolítico. Mas isso traz desvantagens como dificuldade de escalabilidade e alta latência em operações simultâneas.</p>
+      
+          <p>Microserviços resolvem parte desses problemas, mas envolvem abrir mão de uma das garantias do CAP. Em projetos iniciais, o foco não deve ser desempenho — crie um protótipo e evolua conforme necessário.</p>
+      
+          <h2>Tolerância a partições hoje</h2>
+          <p>Com a evolução da comunicação de rede, o Teorema CAP tornou-se mais flexível. Partições são raras, mas ainda existem estratégias para lidar com elas.</p>
+      
+          <p>Um sistema pode detectar partições ou latência e entrar em modo de partição, recuperando dados perdidos ou reiniciando solicitações para manter a disponibilidade.</p>
+      
+          <p>Essa estratégia precisa ser bem planejada. Um sistema com limiar baixo de detecção de partições pode ativar esse modo com frequência, sobrecarregando o banco de dados e a rede.</p>
+      
+          <h2>Tolerância a falhas</h2>
+          <p>Uma forma de minimizar os danos de uma partição é implementar tolerância a falhas. Isso envolve dados redundantes em múltiplos servidores, onde, se um falhar, outro assume seu lugar automaticamente.</p>
+      
+          <h2>Tolerância a falhas vs Tolerância a partições</h2>
+            <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+                <thead>
+                    <tr style="text-align: left;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Prós da Tolerância a Falhas</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Contras da Tolerância a Falhas</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Prós da Tolerância a Partições</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Contras da Tolerância a Partições</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Sistema nunca fica indisponível</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Alto custo de hardware</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Sistema continua mesmo com falhas</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Dados inconsistentes</td>
+                    </tr>
+                    <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Dados consistentes</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Alto custo de desempenho</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Possível restauração de falhas</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">Dificuldade de configuração</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+      
+          <p>Cada abordagem tem suas vantagens e limitações. A escolha deve considerar o contexto do sistema e os requisitos do negócio.</p>
+        `
+      }      
 ];
 
