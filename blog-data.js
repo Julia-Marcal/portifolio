@@ -1,12 +1,42 @@
 const blogPosts = [
     {
+        title: "O ganho técnico por trás do Over Engineering",
+        date: "19 de Agosto de 2025",
+        year: 2025,
+        author: "Ana Julia Marçal",
+        excerpt: "Uma reflexão sobre como o over engineering pode ser um aliado no aprendizado técnico em projetos pet, especialmente quando combinado com IA.",
+        link: "article.html?id=4",
+        content: `
+            <p class="mb-6">Cada vez mais <strong>over engineering</strong> é visto com maus olhos por conta do contexto atual do mercado. Nesse artigo vou mostrar por que pode ser que não seja tão ruim assim. Hoje em dia, projetos são apresentados com rapidez muito por conta das ferramentas que facilitam a vida dos programadores, e muitos usam a filosofia de <em>vibe coding</em> e MVP. Isso não necessariamente é algo ruim se o seu propósito for entregar um produto rápido sem se preocupar tanto com a qualidade.</p>
+            
+            <p class="mb-6">Mas, para quem procura se aprofundar em assuntos específicos, um projeto <em>pet</em> com <strong>over engineering</strong> é extremamente importante. Ele te dá autonomia total sobre o que está construindo, faz você participar de todo o fluxo, desde levantamento de requisitos até o deploy, e ainda cria o melhor espaço para aprender mais sobre ferramentas, design e arquitetura que você quer dominar ou trabalhar no futuro.</p>
+            
+            <h3>O Papel da IA</h3>
+            <p class="mb-6">É importante também entender como a IA pode ajudar nesse processo de evolução do conhecimento como um todo. Assim como cair em <em>tutorial hell</em> ou ficar preso em cursos pode te deixar dependente de um guia, os agentes de IA também podem acabar criando essa dependência.</p>
+            
+            <p class="mb-6">No meu caso, uso a IA como uma assistente para analisar minhas escolhas técnicas. No meu projeto <em>pet</em>, o <strong>"fake-fintech"</strong>, por exemplo, eu estava adicionando uma arquitetura de microserviços com comunicação entre esses serviços e o monólito via mensageria assíncrona. Para ter uma visão mais ampla sobre quais ferramentas usar e entender o nível de complexidade dos serviços, pedi ajuda ao ChatGPT/DeepSeek. Assim fui aprendendo os pontos fortes e fracos de cada alternativa.</p>
+            
+            <h3>Fontes e Estudos</h3>
+            <p class="mb-6">Quanto ao código em si, fui atrás das bibliotecas usadas no Laravel (monólito) e no Golang (serviços) em artigos no Medium e em projetos do GitHub. Também li sobre alguns padrões de mensageria no RabbitMQ (acabei escolhendo <em>Publish/Subscribe</em>) e, em alguns casos específicos de bug/debug, usei a IA para entender o porquê dos erros.</p>
+            
+            <p class="mb-6">Quando estava aprendendo mais sobre as linguagens que uso hoje, também usei IA para achar fontes confiáveis e referências conhecidas sobre o ferramental. No caso do Golang, por exemplo, li <em>Effective Go</em>, olhei os projetos <em>go-patterns</em> e <em>golang-standards/project-layout</em> no GitHub para entender como usar a linguagem de forma efetiva (até porque não adianta nada programar em Go como se fosse em Python).</p>
+            
+            <h3>Conclusão</h3>
+            <p class="mb-6">No fim, o que percebo é que o <strong>over engineering</strong> não precisa ser visto apenas como desperdício de tempo. Em projetos <em>pet</em>, ele é uma forma prática de experimentar e aprender sobre arquitetura, ferramentas e boas práticas de desenvolvimento. Quando esse estudo é auxiliado pela IA, o aprendizado pode ser acelerado, desde que ela não substitua o estudo, a prática e o pensamento crítico real.</p>
+            
+            <p class="mb-6">O equilíbrio entre <strong>over engineering</strong>, usar a <strong>IA</strong> e outras ferramentas como apoio pode ser justamente o que transforma sua evolução técnica.</p>
+            
+            <p class="text-sm text-gray-400 mt-8">Publicado em 19 de Agosto de 2025 por Ana Julia Marçal</p>
+        `
+    },
+    {
         title: "Minha perspectiva sobre Código Limpo",
         date: "17 de Fevereiro de 2024",
         year: 2024,
         author: "Ana Julia Marçal",
         excerpt: "Uma análise pessoal sobre os princípios do livro Código Limpo e como aplicá-los no desenvolvimento de software.",
         image: "https://via.placeholder.com/400x200/6A00FF/FFFFFF?text=Clean+Code",
-        link: "article.html?id=clean-code",
+        link: "article.html?id=3",
         content: `
             
             <p class="mb-6">"Código Limpo" é um livro que divide opiniões entre os leitores; alguns o consideram raso e repetitivo. Porém, é sem dúvida uma ótima leitura para formar suas opiniões.</p>
@@ -57,7 +87,7 @@ var ServiceStatus = emManutencao</code></pre>
         author: "Ana Julia Marçal",
         excerpt: "Um guia prático sobre como escolher a melhor estratégia de migração de banco de dados — do Big Bang à Zero Downtime — com dicas para evitar perdas e garantir uma transição segura.",
         image: "https://via.placeholder.com/400x200/6A00FF/FFFFFF?text=Clean+Code",
-        link: "article.html?id=db-migration",
+        link: "article.html?id=2",
         content: `
             <p>Neste artigo, vamos falar sobre estratégias de migração de banco de dados, por que ela deve acontecer, como deve acontecer e qual é a melhor opção para cada caso.</p>
 
@@ -105,7 +135,7 @@ var ServiceStatus = emManutencao</code></pre>
         author: "Ana Julia Marçal",
         excerpt: "Uma análise sobre como a tolerância a partições evoluiu após os anos 2000 e o que isso significa na prática para sistemas distribuídos e o Teorema CAP.",
         image: "https://via.placeholder.com/400x200/FF7A00/FFFFFF?text=Partition+Tolerance",
-        link: "article.html?id=partition-tolerance",
+        link: "article.html?id=1",
         content: `
           <p>Neste artigo, vamos focar na tolerância a partições ao projetar um sistema e como essa ideia mudou com a evolução da conexão de internet. A ideia de escolher 2 dos 3 itens do Teorema CAP ainda existe? Se sim, ainda é a mesma de antigamente? Existe uma forma de ter tolerância a partições sem nenhuma falha? Vamos conversar sobre isso.</p>
       
@@ -166,6 +196,6 @@ var ServiceStatus = emManutencao</code></pre>
       
           <p>Cada abordagem tem suas vantagens e limitações. A escolha deve considerar o contexto do sistema e os requisitos do negócio.</p>
         `
-      }      
+    }
 ];
 

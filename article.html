@@ -11,8 +11,8 @@
     <meta property="og:description"
         content="Artigos e insights sobre desenvolvimento e tecnologia por Ana Julia Marçal">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://julia-marcal.github.io/portifolio/article.html">
-    <title>Artigo - Ana Julia Marçal</title>
+    <meta property="og:url" content="https://julia-marcal.github.io/portifolio/blog.html">
+    <title>Blog - Ana Julia Marçal</title>
 
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 
@@ -35,9 +35,11 @@
     <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-purple-500/20">
         <div class="container mx-auto px-6 py-4 max-w-5xl">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold font-orbitron text-white">Ana Julia Marçal</h2>
+                <a href="index.html"
+                    class="text-xl font-bold font-orbitron text-white hover:text-purple-400 transition-colors duration-300">Ana
+                    Julia Marçal</a>
                 <div class="hidden md:flex space-x-8">
-                    <a href="index.html#home"
+                    <a href="index.html"
                         class="nav-link text-white hover:text-purple-400 transition-colors duration-300">Início</a>
                     <a href="index.html#about"
                         class="nav-link text-white hover:text-purple-400 transition-colors duration-300">Sobre</a>
@@ -50,7 +52,7 @@
                     <a href="index.html#contact"
                         class="nav-link text-white hover:text-purple-400 transition-colors duration-300">Contato</a>
                     <a href="blog.html"
-                        class="nav-link text-purple-400 hover:text-purple-400 transition-colors duration-300">Blog</a>
+                        class="nav-link text-purple-400 font-bold hover:text-purple-300 transition-colors duration-300">Blog</a>
                     <div class="flex items-center space-x-4 ml-8">
                         <a href="https://github.com/Julia-Marcal" target="_blank" rel="noopener noreferrer"
                             class="text-white hover:text-purple-400 transition-colors duration-300">
@@ -76,7 +78,7 @@
                 </button>
             </div>
             <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
-                <a href="index.html#home"
+                <a href="index.html"
                     class="block py-2 text-white hover:text-purple-400 transition-colors duration-300">Início</a>
                 <a href="index.html#about"
                     class="block py-2 text-white hover:text-purple-400 transition-colors duration-300">Sobre</a>
@@ -119,12 +121,11 @@
     <footer class="py-8 border-t border-purple-500/20 relative z-10">
         <div class="container mx-auto px-6 text-center">
             <p class="text-gray-400 font-poppins">
-                © 2024 Ana Julia Oliveira Marçal. Desenvolvido com HTML, CSS e JavaScript.
+                © 2024 Ana Julia Oliveira Marçal.
             </p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
     <script src="blog-data.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -164,6 +165,7 @@
             }
         });
     </script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>
