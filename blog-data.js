@@ -1,5 +1,68 @@
 const blogPosts = [
     {
+        title: "O poder de registrar: Brag Document e Humble Document",
+        date: "02 de Setembro de 2025",
+        year: 2025,
+        author: "Ana Julia Marçal",
+        excerpt: "Como o brag document e o humble document podem ajudar no crescimento profissional, combatendo a síndrome do impostor e promovendo aprendizado contínuo.",
+        link: "article.html?id=5",
+        content: `
+            <h3>O que é um <em>Brag Document</em>?</h3>
+            <p class="mb-6">De forma simples, um <strong>brag document</strong> é uma lista das suas conquistas profissionais. Ele serve como um registro da sua evolução, sendo especialmente útil em <em>performance reviews</em> ou quando você precisa mostrar à sua liderança por que merece uma promoção ou aumento.</p>
+
+            <p class="mb-6">Mas os benefícios não param aí. Ter esse tipo de documento ajuda você a acompanhar seu crescimento de carreira e a perceber o valor real das suas contribuições dentro de um time ou projeto.</p>
+
+            <p class="mb-6">É natural termos altos e baixos na forma como enxergamos nossa própria performance. Nessas horas, o <strong>brag document</strong> pode ser um antídoto para a famosa “síndrome do impostor”, tão comum entre desenvolvedores. Ao anotar suas conquistas, você passa a observar sua evolução de maneira mais racional e analítica.</p>
+
+            <p class="mb-6">Confesso que no início eu via esse hábito de anotações como perda de tempo, por que escrever em vez de colocar a mão na massa? Hoje penso diferente: registrar pontos relacionados ao trabalho, à carreira e ao desenvolvimento de hard e soft skills é a forma mais prática de identificar áreas de melhoria. Além disso, o documento acaba funcionando como um guia sobre o que estudar e aprofundar, evitando que você gaste energia em tópicos aleatórios que não contribuem de fato para sua evolução profissional.</p>
+
+            <h3>E o <em>Humble Document</em>?</h3>
+            <p class="mb-6">Se o <strong>brag document</strong> foca nas conquistas, o <strong>humble document</strong> tem o objetivo oposto: registrar seus erros. Ele ajuda a identificar padrões de falhas, revelando pontos de melhoria em você, no time ou até mesmo nos processos da equipe.</p>
+
+            <p class="mb-6">Esse hábito de documentar é essencial no ambiente de trabalho. Afinal, não conseguimos guardar todos os detalhes na memória principalmente aqueles erros aparentemente pequenos, mas que podem trazer aprendizados valiosos. Com registros claros, você ainda terá um “backup” de informações para embasar melhor sugestões e discussões.</p>
+
+            <h3>Como utilizar essas anotações?</h3>
+            <p class="mb-6">Não leve esses documentos como uma obrigação chata ou um checklist que precisa ser preenchido toda semana. Se em uma semana você não conseguiu anotar nada no seu <em>brag document</em> ou <em>humble document</em>, tudo bem. Isso não significa que você não evoluiu ou que não fez nada relevante, apenas que naquele momento não houve algo que você julgou digno de registrar (ou até esqueceu).</p>
+
+            <p class="mb-6">A ideia é que esses documentos estejam sempre à mão como uma forma de <strong>autoanálise</strong> e <strong>memória de carreira</strong>. Quando usados dessa maneira, eles deixam de ser uma cobrança e passam a ser um suporte real para seu desenvolvimento.</p>
+
+            <p class="mb-6">No fim das contas, o importante é que eles trabalhem a seu favor, para valorizar suas conquistas, aprender com os erros e manter sua evolução visível para você mesma.</p>
+
+            <p class="text-sm text-gray-400 mt-8">Publicado em 02 de Setembro de 2025 por Ana Julia Marçal</p>
+        `
+    },
+
+    {
+        title: "O ganho técnico por trás do Over Engineering",
+        date: "19 de Agosto de 2025",
+        year: 2025,
+        author: "Ana Julia Marçal",
+        excerpt: "Uma reflexão sobre como o over engineering pode ser um aliado no aprendizado técnico em projetos pet, especialmente quando combinado com IA.",
+        link: "article.html?id=4",
+        content: `
+            <p class="mb-6">Cada vez mais <strong>over engineering</strong> é visto com maus olhos por conta do contexto atual do mercado. Nesse artigo vou mostrar por que pode ser que não seja tão ruim assim. Hoje em dia, projetos são apresentados com rapidez muito por conta das ferramentas que facilitam a vida dos programadores, e muitos usam a filosofia de <em>vibe coding</em> e MVP. Isso não necessariamente é algo ruim se o seu propósito for entregar um produto rápido sem se preocupar tanto com a qualidade.</p>
+            
+            <p class="mb-6">Mas, para quem procura se aprofundar em assuntos específicos, um projeto <em>pet</em> com <strong>over engineering</strong> é extremamente importante. Ele te dá autonomia total sobre o que está construindo, faz você participar de todo o fluxo, desde levantamento de requisitos até o deploy, e ainda cria o melhor espaço para aprender mais sobre ferramentas, design e arquitetura que você quer dominar ou trabalhar no futuro.</p>
+            
+            <h3>O Papel da IA</h3>
+            <p class="mb-6">É importante também entender como a IA pode ajudar nesse processo de evolução do conhecimento como um todo. Assim como cair em <em>tutorial hell</em> ou ficar preso em cursos pode te deixar dependente de um guia, os agentes de IA também podem acabar criando essa dependência.</p>
+            
+            <p class="mb-6">No meu caso, uso a IA como uma assistente para analisar minhas escolhas técnicas. No meu projeto <em>pet</em>, o <strong>"fake-fintech"</strong>, por exemplo, eu estava adicionando uma arquitetura de microserviços com comunicação entre esses serviços e o monólito via mensageria assíncrona. Para ter uma visão mais ampla sobre quais ferramentas usar e entender o nível de complexidade dos serviços, pedi ajuda ao ChatGPT/DeepSeek. Assim fui aprendendo os pontos fortes e fracos de cada alternativa.</p>
+            
+            <h3>Fontes e Estudos</h3>
+            <p class="mb-6">Quanto ao código em si, fui atrás das bibliotecas usadas no Laravel (monólito) e no Golang (serviços) em artigos no Medium e em projetos do GitHub. Também li sobre alguns padrões de mensageria no RabbitMQ (acabei escolhendo <em>Publish/Subscribe</em>) e, em alguns casos específicos de bug/debug, usei a IA para entender o porquê dos erros.</p>
+            
+            <p class="mb-6">Quando estava aprendendo mais sobre as linguagens que uso hoje, também usei IA para achar fontes confiáveis e referências conhecidas sobre o ferramental. No caso do Golang, por exemplo, li <em>Effective Go</em>, olhei os projetos <em>go-patterns</em> e <em>golang-standards/project-layout</em> no GitHub para entender como usar a linguagem de forma efetiva (até porque não adianta nada programar em Go como se fosse em Python).</p>
+            
+            <h3>Conclusão</h3>
+            <p class="mb-6">No fim, o que percebo é que o <strong>over engineering</strong> não precisa ser visto apenas como desperdício de tempo. Em projetos <em>pet</em>, ele é uma forma prática de experimentar e aprender sobre arquitetura, ferramentas e boas práticas de desenvolvimento. Quando esse estudo é auxiliado pela IA, o aprendizado pode ser acelerado, desde que ela não substitua o estudo, a prática e o pensamento crítico real.</p>
+            
+            <p class="mb-6">O equilíbrio entre <strong>over engineering</strong>, usar a <strong>IA</strong> e outras ferramentas como apoio pode ser justamente o que transforma sua evolução técnica.</p>
+            
+            <p class="text-sm text-gray-400 mt-8">Publicado em 19 de Agosto de 2025 por Ana Julia Marçal</p>
+        `
+    },
+    {
         title: "O ganho técnico por trás do Over Engineering",
         date: "19 de Agosto de 2025",
         year: 2025,
