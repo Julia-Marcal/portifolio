@@ -229,6 +229,124 @@ var ServiceStatus = emManutencao</code></pre>
       
           <p>Cada abordagem tem suas vantagens e limitações. A escolha deve considerar o contexto do sistema e os requisitos do negócio.</p>
         `
+    },
+    {
+        title: "DDD na prática: mantendo o domínio seguro",
+        date: "29 de Setembro de 2025",
+        year: 2025,
+        author: "Ana Julia Marçal",
+        excerpt: "Como separar o domínio de negócio da infraestrutura e da aplicação usando DDD e ACLs, garantindo que seu software evolua sem dores de cabeça.",
+        image: "https://via.placeholder.com/400x200/007ACC/FFFFFF?text=Packet+Scope",
+        link: "article.html?id=6",
+        content: `
+            <p>Se tem uma coisa que o <strong>Domain-Driven Design</strong> deixa claro é que nada deve bagunçar o domínio de um projeto. Frameworks mudam, bibliotecas somem, linguagens evoluem, mas a lógica de negócio precisa ficar protegida. É isso que garante que o sistema não se perca quando o mundo ao redor muda. O livro ajuda muito a entender por que projetos <strong>brownfield</strong> muitas vezes dão errado durante a construção.</p>
+
+            <p>Pra mostrar isso de um jeito mais prático, além dos exemplos que darei no artigo, eu criei um projeto pet chamado <strong>Packet Scope</strong>. Ele é um analisador de pacotes de rede escrito em Go, bem leve e simples, mas que já mostra como separar domínio de infraestrutura usando DDD. A ideia não é ser um Wireshark da vida, e sim servir de laboratório pra aplicar arquitetura limpa enquanto mexo com captura de pacotes em tempo real.</p>
+
+            <p>Com o <strong>Packet Scope</strong>, dá pra ver bem como cada camada tem seu papel: o domínio cuida dos conceitos da rede (pacotes, conexões, protocolos), a infraestrutura lida com bibliotecas externas como o <code>gopacket</code>, e a application layer coordena o fluxo e a concorrência entre as goroutines. Tudo separado, cada coisa no seu lugar, sem deixar que dependências externas invadam o core.</p>
+
+            <p>E essa lógica não vale só pra projetos pequenos de estudo. Se a gente olhar para um caso real e de grande escala, como o <strong>Discord</strong>, dá pra perceber exatamente o mesmo princípio em ação.</p>
+
+            <p>O projeto nasceu em 2015 com a missão de competir com o Skype e outros apps parecidos, oferecendo algo leve e estável que não atrapalhasse o desempenho do PC no meio de uma partida. No começo eles usaram <strong>Elixir</strong> no backend e <strong>Electron</strong> no frontend, mas à medida que foram crescendo, adicionaram <strong>Rust</strong> pra ganhar desempenho e adaptaram tudo pra rodar também no <strong>mobile</strong> e na <strong>web</strong> com React Native e React. Mesmo com todas essas mudanças, o domínio continuou o mesmo: ser um canal de comunicação para gamers. As ferramentas mudam, as camadas se ajustam, mas o coração do projeto não pode ser comprometido por detalhes externos.</p>
+
+            <p>Mas como garantir isso? Adotar uma arquitetura hexagonal ou Ports and Adapters nem sempre é necessário. Eu sigo a filosofia do <strong>Keep It Simple, Stupid (KISS)</strong>: essas arquiteturas são boas, mas funcionam melhor em projetos mais complexos.</p>
+
+            <p>O essencial é separar a lógica de negócio das outras regras, seja de infraestrutura, aplicação e apresentação. Isso deixa o projeto organizado e facilita que qualquer desenvolvedor consiga entender e evoluir o sistema. A camada de <strong>domínio</strong> vai carregar a lógica de negócio, agregados, entidades e outros elementos essenciais. Para que ferramentas ou escolhas externas não afetem essa camada, dá pra usar <strong>inversão de dependência</strong> ou apenas tomar cuidado maior com os imports, usando interfaces e outras abstrações de forma consciente. Assim, o domínio depende só das regras e comportamentos essenciais, sem se amarrar a bibliotecas externas.</p>
+
+            <h2>Layers</h2>
+
+            <h3>Application Layer</h3>
+            <p>Esse layer coordena o que precisa acontecer antes de qualquer regra de negócio ser executada. Por exemplo: se um usuário faz uma request sobre pacotes de rede em tempo real, mas essa request depende dos protocolos filtrados, a verificação acontece no Application Layer. Só depois que a request é validada ela vai para o domínio, que processa os pacotes, e a resposta volta pelo Application Layer até a camada de apresentação. Assim, o domínio continua limpo e focado só na lógica de negócio.</p>
+
+            <p>Além disso, o Application Layer também pode ter funções mais complexas. No <strong>Packet Scope</strong>, ele também <strong>orquestra a concorrência</strong>. O <code>analyzer.go</code> é um exemplo claro disso: ele coordena múltiplas goroutines para capturar pacotes em paralelo nas diferentes interfaces de rede. Esse tipo de controle de fluxo e concorrência não pertence ao domínio, mas sim à aplicação, pois trata de como o sistema organiza a execução das regras de negócio no mundo real.</p>
+
+            <h3>Infrastructure Layer</h3>
+            <p>Aqui ficam as implementações concretas que lidam com variáveis externas. É onde entram detalhes como persistência, rede, logs ou, nesse caso, a captura de pacotes com <code>gopacket</code> e <code>pcap</code>. O domínio não precisa saber como abrir uma interface de rede, filtrar protocolos ou registrar pacotes; ele só delega essas tarefas. Assim, a Infra Layer traduz as necessidades do domínio em chamadas para bibliotecas, sistemas ou dispositivos reais.</p>
+
+            <h3>Presentation Layer</h3>
+            <p>Essa camada é a “porta de entrada” para o usuário ou cliente da aplicação. Pode ser uma API HTTP, uma interface de linha de comando, ou até um dashboard web. Ela recebe as interações externas, transforma em comandos que o Application Layer entende, e depois devolve o resultado em um formato acessível para quem fez a requisição. Assim, o usuário não lida com regras de negócio nem detalhes de infraestrutura, só com a interface exposta.</p>
+
+            <pre>
+        ┌───────────────────────────────────────┐
+        │       Infrastructure Layer            │
+        │ • Acesso a banco de dados (SQL/NoSQL) │
+        │ • APIs externas / HTTP clients        │
+        │ • Sistemas de mensageria (Kafka, NATS)│
+        │ • Bibliotecas de captura (GoPacket)   │
+        │ • Logs, métricas, configurações       │
+        └───────────▲───────────────────────────┘
+                    │ dados crus (externos)
+                    │
+        ┌─────────────────────────────────────┐
+        │             Domain / Core           │
+        │ • Regras de negócio puras           │
+        │ • Entidades e agregados             │
+        │ • Serviços de domínio               │
+        │ • Sem dependências externas         │
+        │ Ex: NetworkFrame, Connection, Alert │
+        └───────────▲─────────────────────────┘
+                    │ resultado puro
+                    │
+        ┌─────────────────────────────────────┐
+        │          Application Layer          │
+        │ • Coordena casos de uso             │
+        │ • Orquestra chamadas ao domínio     │
+        │ • Aplica validações de negócio      │
+        │ • Lida com regras de autorização    │
+        │ • Define fluxos antes/depois do core│
+        └───────────▲─────────────────────────┘
+                    │ dados validados
+                    │
+        ┌─────────────────────────────────────┐
+        │         Presentation Layer          │
+        │ • Controllers REST/GraphQL          │
+        │ • CLI commands                      │
+        │ • WebSocket handlers                │
+        │ • Formatação de responses (JSON)    │
+        │ • Validação/parsing de entrada      │
+        └─────────────────────────────────────┘
+            </pre>
+
+            <h2>Quando uma ferramenta afeta o core</h2>
+            <p>Algumas bibliotecas acabam mexendo direto no domínio, e aí o risco aumenta. No <strong>Packet Scope</strong>, por exemplo, precisamos de uma biblioteca para capturar pacotes, como <strong>GoPacket</strong>. O problema é o risco desse acoplamento: se a biblioteca parar de ser desenvolvida ou mudar de forma incompatível, atualizar a aplicação pode virar um pesadelo, exigindo fork ou até uma implementação interna.</p>
+
+            <p>Uma forma de resolver isso é usar um <strong>Anti-Corruption Layer (ACL)</strong>. A ideia é criar uma camada que pega os dados brutos da biblioteca e transforma em um modelo que faz sentido pro nosso domínio (<code>NetworkFrame</code>, <code>Connection</code>, <code>Alert</code>). Assim, o core da aplicação nunca depende diretamente da biblioteca. Qualquer mudança externa afeta só a camada de tradução, deixando o domínio seguro, limpo e pronto para evoluir sem problemas.</p>
+
+            <pre>
+        // ❌ Acoplamento direto
+        type AllowedProtocols struct {
+            Protocols map[gopacket.LayerType]bool // <- dependência externa
+        }
+
+        // ✅ Domínio puro (como deveria ser)
+        type NetworkProtocol int
+
+        const (
+            IPv4 NetworkProtocol = iota
+            IPv6
+            TCP
+            UDP
+        )
+
+        type PacketFilter struct {
+            AllowedProtocols []NetworkProtocol
+        }
+            </pre>
+
+            <h3>Boas práticas de ACL</h3>
+            <ul>
+                <li><strong>Isolar dependências externas</strong>: nunca deixe o domínio conhecer tipos ou estruturas de uma lib de terceiros.</li>
+                <li><strong>Modelar no idioma do domínio</strong>: traduza dados crus (<code>gopacket.LayerType</code>) para conceitos que fazem sentido pro negócio (<code>NetworkProtocol</code>, <code>Connection</code>, <code>Alert</code>).</li>
+                <li><strong>Manter o ACL fino e objetivo</strong>: ele não deve virar uma segunda camada de negócio, só traduz formatos externos para internos.</li>
+                <li><strong>Documentar as conversões</strong>: deixe claro no código onde acontece a tradução para evitar bypass.</li>
+                <li><strong>Facilitar substituição de bibliotecas</strong>: se amanhã trocar <code>GoPacket</code> por <code>Go-Pcap</code>, só o ACL muda. O domínio continua intacto.</li>
+            </ul>
+
+            <p>Com esse artigo não quero ditar regras nem dizer que todo projeto precisa nascer em cima de arquitetura hexagonal, entidades e agregados. O que quero reforçar é que proteger o domínio de negócio faz uma diferença enorme na evolução do software. Se a ideia é transformar um MVP em produto de longo prazo, desacoplar as bibliotecas e criar camadas de tradução (ACL) já é meio caminho andado. Pode parecer detalhe, mas é esse cuidado que garante tranquilidade lá na frente, quando uma dependência parar de ter suporte ou não acompanhar mais as versões das ferramentas que você usa. O domínio segue intacto, e o sistema continua evoluindo sem dor de cabeça.</p>
+
+            <p>Se você quiser dar uma olhada mais a fundo no código que fiz, dá uma passada no repositório do <strong>Packet Scope</strong>: <a href="https://github.com/Julia-Marcal/packet-scope">https://github.com/Julia-Marcal/packet-scope</a></p>
+            `
     }
+
 ];
 
