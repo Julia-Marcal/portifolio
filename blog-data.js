@@ -346,7 +346,138 @@ var ServiceStatus = emManutencao</code></pre>
 
             <p>Se você quiser dar uma olhada mais a fundo no código que fiz, dá uma passada no repositório do <strong>Packet Scope</strong>: <a href="https://github.com/Julia-Marcal/packet-scope">https://github.com/Julia-Marcal/packet-scope</a></p>
             `
+    },
+    {
+        title: "Dicas de performance em Go",
+        date: "30 de outubro de 2025",
+        year: 2025,
+        author: "Ana Julia Marçal",
+        excerpt: "Aprenda práticas e técnicas para extrair o máximo de performance do Go, evitando alocações desnecessárias e usando ponteiros, sync.Pool, copy e strings.Builder de forma eficiente.",
+        image: "https://via.placeholder.com/400x200/007ACC/FFFFFF?text=Packet+Scope",
+        link: "article.html?id=7",
+        content: `
+            <p class="mb-6">Go já é uma linguagem naturalmente rápida, mas sempre é possível melhorar seu código para alcançar uma performance ainda mais eficiente. Neste artigo, vou mostrar algumas práticas que podem te ajudar a extrair o máximo da linguagem, com exemplos reais e explicações que fazem sentido no dia a dia de um programador.</p>
+
+            <h2>Use ponteiros (mas nem sempre)</h2>
+            <p class="mb-6"><strong>Ponteiros</strong> são uma das funcionalidades mais interessantes (e, ao mesmo tempo, mais mal utilizadas) em Go. Principalmente pra quem vem de outra linguagem, entender <strong>o propósito</strong>, <strong>como</strong> e <strong>quando</strong> usar ponteiros faz toda a diferença.</p>
+
+            <h3>Mas então, quando vale usar?</h3>
+            <p class="mb-6">Geralmente, quando o dado que você está passando é grande (mais de 8 bytes). Isso porque um ponteiro ocupa 8 bytes, então, se você <strong>não</strong> usar ponteiros, o Go vai <strong>copiar a variável</strong> dentro da função (mesmo que desnecessariamente) o que acaba prejudicando a performance.</p>
+
+            <h3>Quando não usar ponteiros?</h3>
+            <p class="mb-6">Existem casos em que usar ponteiros não é bom. Retornar um ponteiro, por exemplo, só faz sentido quando o dado realmente precisa continuar existindo fora do escopo da função, isso causa um escape. Caso contrário, o Go acaba mandando seus dados pro <strong>heap</strong>, o que é mais pesado e faz o <strong>Garbage Collector</strong> entrar em ação para gerenciar a memória e isso custa performance.</p>
+
+            <h3>Entendendo o escape</h3>
+            <h4>Exemplo - sem ponteiro</h4>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>func createUser() User {
+    u := User{Name: "Julia", Age: 25}
+    return u
+}</code></pre>
+            <p class="mb-6"><code>u</code> fica na <strong>stack</strong> — simples e rápido.</p>
+
+            <h4>Exemplo - com ponteiro</h4>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>func createUser() *User {
+    u := User{Name: "Julia", Age: 25}
+    return &u
+}</code></pre>
+            <p class="mb-6">Agora <code>u</code> vai pro <strong>heap</strong>, porque o Go precisa garantir que ele continue existindo fora da função.</p>
+
+            <h4>Como ver se algo escapou pro heap</h4>
+            <p class="mb-6">Execute o comando abaixo e veja o que o compilador está fazendo por baixo dos panos:</p>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>go build -gcflags="-m"</code></pre>
+
+            <p class="mb-6">Se alguma variável tiver ido pro heap, vai aparecer algo como:</p>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>./main.go:5:6: moved to heap: u</code></pre>
+
+            <h2>Use sync.Pool pra objetos temporários</h2>
+            <p class="mb-6">O <code>sync.Pool</code> pode ser usado quando o seu código cria e destrói muitos objetos pesados (tipo structs grandes em loops ou requisições HTTP). Nessas situações o garbage collector acaba tendo que gerenciar as mesmas variáveis repetidas múltiplas vezes, e isso consome CPU. Com <code>sync.Pool</code> você guarda os objetos temporários e os reaproveita, evitando alocações desnecessárias e deixando o código mais leve.</p>
+
+            <h3>Sem sync.Pool</h3>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>type User struct {
+    Name string
+    Data [1024]byte
+}
+
+func process() {
+    u := new(User)
+    u.Name = "Ana"
+    fmt.Println("Processando", u.Name)
+}
+
+func main() {
+    for i := 0; i < 1_000_000; i++ {
+        process()
     }
+}</code></pre>
+            <p class="mb-6">Aqui o GC precisa lidar com 1 milhão de <code>User</code> alocados e descartados.</p>
+
+            <h3>Com sync.Pool</h3>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>var userPool = sync.Pool{
+    New: func() any {
+        return new(User)
+    },
+}
+
+func process() {
+    u := userPool.Get().(*User)
+    u.Name = "Ana"
+    fmt.Println("Processando", u.Name)
+    userPool.Put(u)
+}
+
+func main() {
+    for i := 0; i < 1_000_000; i++ {
+        process()
+    }
+}</code></pre>
+            <p class="mb-6">Aqui, os objetos são reutilizados, e o GC quase não precisa fazer nada. Perfeito pra casos com <strong>requisições curtas</strong>, <strong>serialização de JSON</strong> ou <strong>buffers temporários</strong>.</p>
+
+            <h2>Cuidado com closures que capturam variáveis grandes</h2>
+            <p class="mb-6">Funções anônimas (<em>closures</em>) podem acessar variáveis de fora do seu escopo (mas isso não significa que seja uma boa ideia em todos os casos). Se a variável for grande, o compilador pode mandar ela direto pro <strong>heap</strong>, fazendo com que fique armazenada desnecessariamente e acabe pesando na performance, fazendo diferença em situações com muitas goroutines, quando você usa closures em loops ou manipula slices, mapas e structs grandes.</p>
+
+            <h3>Exemplo ruim</h3>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>big := make([]byte, 1<<20)
+
+go func() {
+    fmt.Println(len(big))
+}()</code></pre>
+            <p class="mb-6">Como a goroutine pode rodar depois do <code>main</code>, o Go precisa garantir que <code>big</code> continue existindo. Resultado: vai pro heap.</p>
+
+            <h3>Exemplo bom</h3>
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>big := make([]byte, 1<<20)
+
+go func(data []byte) {
+    fmt.Println(len(data))
+}(big)</code></pre>
+            <p class="mb-6">Agora o Go entende que <code>data</code> é só uma <strong>referência</strong>, sem precisar mover <code>big</code> pro heap.</p>
+
+            <h2>Prefira copy() a loops pra duplicar slices</h2>
+            <p class="mb-6">Sempre que precisar duplicar slices, utilize a função built-in <code>copy()</code>. Ela é implementada em baixo nível, garantindo que a cópia seja <strong>idêntica</strong>, <strong>profunda</strong> e geralmente <strong>mais rápida</strong> do que criar a cópia manualmente. Para slices pequenos ou operações ocasionais, não há muita diferença. Mas em loops com muitas iterações ou slices grandes, <code>copy()</code> evita cópias desnecessárias e alocações extras, tornando o código mais eficiente e previsível.</p>
+
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>dst := make([]byte, len(src))
+copy(dst, src)</code></pre>
+
+            <h2>Use buffers pra concatenar strings</h2>
+            <p class="mb-6">Concatenar strings com <code>+</code> dentro de loops pode gerar alocações desnecessárias de memória. O mais eficiente é usar <code>strings.Builder</code>, que mantém um <strong>buffer interno</strong>, evitando cópias repetidas e reduzindo o trabalho do <strong>garbage collector</strong>:</p>
+
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>var builder strings.Builder
+for i := 0; i < 1000; i++ {
+    builder.WriteString("Olá ")
+}
+result := builder.String()</code></pre>
+
+            <h2>Dica final</h2>
+            <p class="mb-6">Nem todo cenário exige performance extraordinária, onde nenhum pequeno gargalo pode passar despercebido, <strong>na maioria das vezes, nitpicking demais não é necessário</strong>.</p>
+
+            <p class="mb-6">Se ainda assim você quiser garantir que sua aplicação está otimizada, lembre-se de que pequenas mudanças podem gerar ganhos, mas nem sempre o gargalo está onde se imagina. Para identificar a raiz do problema, use o <strong>profiler nativo <code>pprof</code></strong> e descubra exatamente o que está deixando seu código mais lento.</p>
+
+            <pre class="bg-gray-800 p-4 rounded mb-4 overflow-x-auto"><code>go test -bench=. -benchmem
+go tool pprof ./myapp cpu.pprof</code></pre>
+
+            <p class="text-sm text-gray-400 mt-8">Publicado em 30 de Setembro de 2025 por Ana Julia Marçal</p>
+        `
+    }
+
 
 ];
 
